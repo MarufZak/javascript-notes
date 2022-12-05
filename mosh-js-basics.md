@@ -47,7 +47,7 @@ _Object() is built-in constructor function that constructs the objects_
 - Boolean(). But we use boolean literal (true, false)
 - Function().
 
-> Functions are objects. Constructor function of functions is Function, with help of what we can create objects.
+> All Functions are object's methods. Constructor function of functions is Function, with help of what we can create objects.
 > All functions have methods: call , apply.
 
 # Value types and Reference Types. (Primitives and objects)
@@ -215,13 +215,19 @@ let obj2 = { ...obj1 };
 console.log(obj2); // { a: 1 , b: 2, c: { d: 3 }  }
 ```
 
+# Deep Clone (all levels)
+
+```js
+const obj3 = { a: 0, b: { c: 0 } };
+const obj4 = JSON.parse(JSON.stringify(obj3));
+```
+
 # Garbage collection
 
-In JavaScript , when you create an  object, the memory is automatically allocated to this object. When we are done using it , the memory is automatically deallocated. JavaScript engine has so-called **Garbage Collector**. Its job is to find the variables and constants that are no longer used , and to deallocate the memory that was allocated for them earlier.
-
-
+In JavaScript , when you create an object, the memory is automatically allocated to this object. When we are done using it , the memory is automatically deallocated. JavaScript engine has so-called **Garbage Collector**. Its job is to find the variables and constants that are no longer used , and to deallocate the memory that was allocated for them earlier.
 
 # String
+
 ```js
 1. String primitives.
 const message = 'hi'; // typeof string
@@ -244,10 +250,125 @@ Some string object methods:
 
 -----------------------------------------------
 
-\ means 'ignore the next character'; 
+\ means 'ignore the next character';
 Example: 'My name is Ma'ruf' // error
 'My name is Ma\'ruf' // no error , ' is ignored
 
-
-
 ```
+
+# Template Literal
+
+```js
+const name = "John";
+const another = `This is 
+my first string! ${John} `;
+```
+
+# Date Object
+
+```js
+const now = new Date();
+
+// We can set different formats by passing arguments
+
+const past = new Date('20/04/2018'); // short date; Fri Apr 20 2018 00:00:00 GMT+0500 (Узбекистан, стандартное время)
+const past1 = new Date('April 20 2018' or '20 April 2018' ); // ling date. Fri Apr 20 2018 00:00:00 GMT+0500 (Узбекистан, стандартное время);
+const past2 = new Date('2018-04-20'); // ISO Date. Fri Apr 20 2018 05:00:00 GMT+0500
+and others...
+```
+
+> The ISO format follows a strict standard in JavaScript. The other formats are not so well defined and might be browser specific
+
+All Date objects have methods of two types:
+
+1. **Get** methods
+   now.getFullYear(); // 2022
+   now.toISOString(); // 2022-12-04T00:00:00.000Z
+2. **Set** methods
+   now.setFullYear(2018); // year is changed to 2018
+
+
+
+
+
+# Function
+Function types:
+1. Function Declaration. 
+```js
+function sayMessage(msg){
+  console.log(msg);
+}
+  sayMessage('Hello'); // Hello
+```
+
+2. Function expression. Function creation is done after **=** operator. Also you don't give name to function itself.
+```js
+const sayMessage = function(msg){
+  console.log(msg);
+}; // here we use ; bcs we assign the value to function || value
+sayMessage('Hello'); // Hello
+```
+
+#### Function is a value (Функция - это значение) , which represent an action.
+```js
+// For both cases , this will apply:
+alert(sayMessage); // there are no (), so function is not called;
+
+//  function sayMessage(msg){
+//      console.log(msg);
+//  }
+```
+
+### Differences between function expression and function declaration.
+1. Creation
+*Function declaration.* Created with 'function' in main flow (поток) of code
+*Function expression.* Created inside other expression after ***=***  operator.
+2. How JS engine create them.
+*Function declaration.* Before working on script , JS engine searches for function declarations and create them (initialization stage), and then executes the rest of the code => **function declarations can be called before they are use created.**
+*Function expression.* Created after execution flow (поток выполнения) comes to = function ... . **Cannot be used before it is created.**
+3. *Function Declaration* is visible (can be accessed by others)  only in the block of code where it is initialized.
+```js
+let age = prompt("Сколько Вам лет?", 18);
+
+if (age < 18) {
+
+  function welcome() {
+    alert("Привет!");
+  }
+
+} else {
+
+  function welcome() {
+    alert("Здравствуйте!");
+  }
+
+}
+
+
+welcome(); // Error: welcome is not defined
+```
+
+But we can access the function with *function expression* , but with special syntax.
+
+``` js
+let welcome;
+
+let age = prompt('Сколько вам лет',18);
+
+if (age < 18) {
+
+  welcome = function() {
+    alert("Привет!");
+  }
+
+} else {
+
+  welcome = function() {
+    alert("Здравствуйте!");
+  }
+
+}
+
+welcome(); // Welcome can be accessed
+```
+>Function Declaration is more noticeable in code that function expression

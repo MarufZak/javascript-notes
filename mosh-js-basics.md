@@ -287,29 +287,30 @@ All Date objects have methods of two types:
 2. **Set** methods
    now.setFullYear(2018); // year is changed to 2018
 
-
-
-
-
 # Function
+
 Function types:
-1. Function Declaration. 
+
+1. Function Declaration.
+
 ```js
-function sayMessage(msg){
+function sayMessage(msg) {
   console.log(msg);
 }
-  sayMessage('Hello'); // Hello
+sayMessage("Hello"); // Hello
 ```
 
 2. Function expression. Function creation is done after **=** operator. Also you don't give name to function itself.
+
 ```js
-const sayMessage = function(msg){
+const sayMessage = function (msg) {
   console.log(msg);
 }; // here we use ; bcs we assign the value to function || value
-sayMessage('Hello'); // Hello
+sayMessage("Hello"); // Hello
 ```
 
 #### Function is a value (Функция - это значение) , which represent an action.
+
 ```js
 // For both cases , this will apply:
 alert(sayMessage); // there are no (), so function is not called;
@@ -320,55 +321,419 @@ alert(sayMessage); // there are no (), so function is not called;
 ```
 
 ### Differences between function expression and function declaration.
+
 1. Creation
-*Function declaration.* Created with 'function' in main flow (поток) of code
-*Function expression.* Created inside other expression after ***=***  operator.
+   _Function declaration._ Created with 'function' in main flow (поток) of code
+   _Function expression._ Created inside other expression after **_=_** operator.
 2. How JS engine create them.
-*Function declaration.* Before working on script , JS engine searches for function declarations and create them (initialization stage), and then executes the rest of the code => **function declarations can be called before they are use created.**
-*Function expression.* Created after execution flow (поток выполнения) comes to = function ... . **Cannot be used before it is created.**
-3. *Function Declaration* is visible (can be accessed by others)  only in the block of code where it is initialized.
+   _Function declaration._ Before working on script , JS engine searches for function declarations and create them (initialization stage), and then executes the rest of the code => **function declarations can be called before they are use created.**
+   _Function expression._ Created after execution flow (поток выполнения) comes to = function ... . **Cannot be used before it is created.**
+3. _Function Declaration_ is visible (can be accessed by others) only in the block of code where it is initialized.
+
 ```js
 let age = prompt("Сколько Вам лет?", 18);
 
 if (age < 18) {
-
   function welcome() {
     alert("Привет!");
   }
-
 } else {
-
   function welcome() {
     alert("Здравствуйте!");
   }
-
 }
-
 
 welcome(); // Error: welcome is not defined
 ```
 
-But we can access the function with *function expression* , but with special syntax.
+But we can access the function with _function expression_ , but with special syntax.
 
-``` js
+```js
 let welcome;
 
-let age = prompt('Сколько вам лет',18);
+let age = prompt("Сколько вам лет", 18);
 
 if (age < 18) {
-
-  welcome = function() {
+  welcome = function () {
     alert("Привет!");
-  }
-
+  };
 } else {
-
-  welcome = function() {
+  welcome = function () {
     alert("Здравствуйте!");
-  }
-
+  };
 }
 
 welcome(); // Welcome can be accessed
 ```
->Function Declaration is more noticeable in code that function expression
+
+> Function Declaration is more noticeable in code that function expression
+
+### Arrow functions
+
+```js
+let func = (arg1,arg2) {
+  console.log(arg1+arg2);
+}
+
+// is the same with function expression
+
+let func = function(arg1,arg2){
+  console.log(arg1,arg2);
+}
+
+```
+
+- if we have one argument, we can remove parentheses (). Ex:
+
+```js
+let func = (arg1) => console.log(arg1);
+```
+
+- Arrow Function can be used the same as function expression. When using arrow functions with > 1 instructions , you should use {} ,and also return statement should be used if you want to return something. By default , if you use 1 instruction without {} , the value is automatically returned.
+
+## this
+
+**_this_** is a keyword that can be used in object's methods , accessing an object itself. Arrow functions doesn't have its **own** 'this'. It inherits this keyword from its parent.
+
+# Arrays
+
+### Adding elements
+
+1. To the end. **array.push(items);** returns the last element being added
+
+```js
+const numbers = [1, 2, 3];
+numbers.push(4, 5, 6); // [1,2,3,4,5,6]
+```
+
+2. To the beginning. **array.unshift(items)** returns the length of final array.
+
+```js
+const numbers = [4, 5, 6];
+numbers.unshift(1, 2, 3); // [1,2,3,4,5,6]
+```
+
+3. To any position. **array.splice(start,deleteCount, items)** returns array of deleted elements.
+
+```js
+const numbers = [1, 4];
+numbers.splice(1, 0, 2, 3); // [1,2,3,4]
+```
+
+### Removing elements
+
+1. **array.pop( )** . Removes the last element of an array , and returns it.
+
+```js
+const numbers = [1, 2, 3, 4];
+const lastElement = numbers.pop();
+console.log(numbers); // [1,2,3]
+console.log(lastElement); // 4
+```
+
+2. **array.shift( )** . Removes the first element of an array , and returns it.
+
+3. **array.splice( startIndex, deleteCount, items )** . Removes given number of elements from array at given position and returns an array of deleted elements.
+
+```js
+const array = [1, 2, 3];
+const nums = array.splice(1, 2);
+console.log(array); // [1]
+console.log(nums); // [2,3]
+```
+
+### Finding Elements (primitives).
+
+1. **array.indexOf( searchElement, [ fromIndex ] )**
+   _=== equation_
+
+```js
+const numbers = [1, 2, 3, 4, 5, 1, 2];
+numbers.indexOf(1); // 0
+numbers.indexOf(10); // -1
+numbers.indexOf("2"); // -1
+
+numbers.lastIndexOf(1); // 5
+
+numbers.indexOf(1, 1); // 5
+```
+
+2. **array.includes( searchElement , [ fromIndex ] )**
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+numbers.includes(3); // true
+numbers.includes(10); // false
+```
+
+### Finding Elements (references).
+
+1. **array.find(callback(arrayElement))**
+
+```js
+const array = [
+  { id: 1, name: "HTML" },
+  { id: 2, name: "CSS" },
+  { id: 3, name: "JS" },
+];
+
+const course1 = array.find((object) => {
+  return object.name === "JS";
+});
+console.log(course1); // {id: 3, name: 'JS'}
+```
+
+2. **Find Index(callback(arrayElement))**
+
+- Work the same as find method , but returns an index.
+
+### Combining and slicing.
+
+1. array1.concat(array2). Connects 2 arrays and returns a new array
+
+```js
+const array1 = [1, 2, 3];
+const array2 = [4, 5, 6];
+const connectedArray = array1.concat(array2);
+console.log(connectedArray); // [1,2,3,4,5,6];
+```
+
+### Joining arrays
+
+1. **array.join( [separator] )**. Returns string. By default separator is **_,_** .
+
+```js
+const array = [1, 2, 3, 4, 5];
+console.log(array.join("+")); // 1+2+3+4+5
+```
+
+2. **string.split( [ seperator ], [ limit ] )**. Returns array.By default seperator is ''.
+
+```js
+// ['Hello' , 'World', '!']
+```
+
+### Sorting arrays
+
+**array.sort( [ compareFunction ] )**. By default , sorting comes from Unicode values. Array itself is sorted
+
+```js
+const array = [4, 2, 1, 6];
+array.sort();
+console.log(array); // [1, 2, 4, 6]
+
+const array = [
+  { id: 1, name: "CSS" },
+  { id: 2, name: "HTML" },
+];
+
+array.sort((a, b) => {
+  if (a.name > b.name) return 1;
+  if (a.name < b.name) return -1;
+  return 0;
+});
+```
+
+### Testing the elements of array
+
+1. **array.every( callback(currentElement, index, array) => { } )**.
+   Checks if all elements of array satisfy the condition and returns boolean.
+
+```js
+const array = [4, 1, 4, 6, 3];
+let allPositive = array.every((element, index, array) => {
+  return element >= 0;
+});
+console.log(allPositive); // true
+```
+
+2. **array.some**. Same as array.every method , returns boolean , checks if at least one element satisfy the condition.
+
+```js
+const array = [4, 1, 2, 3, -1, 1, 4];
+const atLeastOneNegative = array.some((element, index, array) => {
+  return element < 0;
+});
+console.log(atLeastOneNegative); // true
+```
+
+### Filtering ar array.
+
+**array.filter( callback( element, index, array ) => { })**.Returns an array of element which satisfy the condition in callback fn. Does not modify the original array
+
+```js
+const array = [2, -3, -10, 33, 12];
+const biggerThanTwo = array.filter((element, index, array) => {
+  return element > 2;
+});
+console.log(biggerThanTwo); // [33, 12]
+```
+
+### Mapping an Array
+
+**array.map( callback( element, index, array )=> { });**. Returns an array of modified elements according to body of the fn. Does not change the original array.
+
+```js
+const numbers [1,2,3,4,5];
+const items = numbers.map((element,index,array)=>{
+  return {value: element, index}
+})
+console.log(items);
+//    [
+// 0 : {value: 1, index: 0}
+// 1 : {value: 2, index: 1}
+// 2 : {value: 3, index: 2}
+// 3 : {value: 4, index: 3}
+// 4 : {value: 5, index: 4}
+//    ]
+```
+
+### Reducing an Array.
+
+The reduce() method executes callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value, which can be any value.
+
+```js
+const array = [-3, -1, 4, 8, 12];
+
+let sum = array.reduce((accumulator, currentValue) => {
+  return accumulator + currentValue;
+}, 0); // 0 is initial value of accumulator. Accumulator is returned as a final result.
+
+console.log(sum); // 20
+```
+
+### Let VS Var
+
+**Var** variable has function scope , whereas **let** variable has block scope.
+**Var** variable is attached to window object, **let** variable is not attached to window object
+
+### THIS keyword
+
+**_this_** keyword refers to the object , where the function is being used.
+
+```js
+let video = {
+  play(){
+    console.log(this);
+  }
+}
+
+video.play(); // video object , because play is method of video object => this refers to the video object. Same with constructor functions.
+
+const playVideo = ()=>{
+  console.log(width);
+};
+playVideo(); // window object. Because the window object is executing the playVideo object, so this refers to global window object.
+
+
+
+--------------------
+
+
+const video = {
+  title: 'title',
+  tags: ['a','b','c'],
+  showTags(){
+    this.tags.forEach(function(){ // **
+        console.log(this.title); // *
+    })
+  }
+}
+// this keyword in * line refers to window object, because function in line ** is not video method. How to fix?
+
+1. use this keyword as a second param for forEach method. Second argument is the object which can be referenced inside the function with this keyword.
+const video = {
+  title: 'title',
+  tags: ['a','b','c'],
+  showTags(){
+    this.tags.forEach(function(){ // **
+        console.log(this.title); // *
+    },this)
+  }
+}
+
+
+2. use ( let self = this ) inside showTags method. Not recommended to use.
+
+const video = {
+  title: 'title',
+  tags: ['a','b','c'],
+  showTags(){
+    let self = this;
+    this.tags.forEach(function(){ // **
+        console.log(self.title); // *
+    })
+  }
+}
+
+3. function.bind method
+
+const video = {
+  title: "title",
+  tags: ['a','b','c'],
+  showTags(){
+    this.tags.forEach(function(){
+      console.log(this.title);
+    }.bind(this))
+  }
+}
+
+video.showTags(); // title
+
+
+
+
+4. with arrow functions
+
+const video = {
+  title: "title",
+  tags: ['a','b','c'],
+  showTags(){
+    this.tags.forEach((tag)=>{
+      console.log(this.title);
+    })
+  }
+}
+
+video.showTags(); // title
+// in arrow functions , this is inherited from its parent, so it refers to video object
+
+
+
+
+```
+
+### Changing this keyword.
+
+```js
+1. function.call(thisArg, ...). thisArg refers to object , which can be acessed in function. ... are arguments of the function.
+
+function showTags(a,b){
+  console.log(this); // { title: 'title' }
+  console.log(a + b); // 3
+}
+
+showTags.call({title: 'title'}, 1 , 3)
+
+
+
+2. function.apply(thisArg, [...]). Same with call method , but arguments should be in array.
+
+3. function.bind(thisArg, ...). Same with call method, but it doesn't call a function , it returns a function with given params. If you call it , it will always work with this and params given.
+
+function show(a,b){
+  console.log(this);
+  console.log(a + b);
+}
+
+const newFunc = show.bind({title:"title"}, 1 , 2 );
+
+newFunc();
+// {title: "title"}
+// 3
+
+
+4. arrow function
+// it inherits this keyword from its parent
+
+```
